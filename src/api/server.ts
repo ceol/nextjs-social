@@ -1,4 +1,4 @@
-import { createServer, Model, Factory, hasMany, belongsTo, RestSerializer, JSONAPISerializer } from "miragejs"
+import { createServer, Model, Factory, belongsTo, RestSerializer } from "miragejs"
 import * as faker from "faker"
 
 export function makeServer({ environment = "test" }) {

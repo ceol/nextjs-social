@@ -10,19 +10,25 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.4",
+    "apollo-server-micro": "^3.3.0",
+    "cors": "^2.8.5",
+    "graphql": "^15.6.0",
     "ky": "^0.28.5",
     "next": "11.1.1",
+    "next-auth": "^3.29.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "swr": "^1.0.0"
+    "react-query": "^3.24.5"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
     "@types/faker": "^5.5.8",
     "@types/react": "17.0.19",
     "autoprefixer": "^10.3.3",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.1",
     "faker": "^5.5.3",
+    "lowdb": "^3.0.0",
     "miragejs": "^0.1.41",
     "postcss": "^8.3.6",
     "tailwindcss": "^2.2.9",

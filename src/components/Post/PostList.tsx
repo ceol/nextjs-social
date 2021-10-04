@@ -48,15 +48,19 @@ export default function PostList() {
 
   if (isLoading) return <div>Loading...</div>
   if (isError) return <div>Error! {isError}</div>
+  if (! data) return <div>Something went wrong :(</div>
 
   return (
     <div>
       {data.posts.map((postData: ResponsePostType) => {
         const author = data.users.find((user: any) => user.id == postData.author)
+        if (! author) return
+
         const post = {
           ...postData,
           author: author,
         }
+
         return (
           <PostListItem post={post} key={post.id} />
         )

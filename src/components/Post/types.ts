@@ -1,4 +1,4 @@
-import { ComponentType } from "react"
+import { ComponentType, ReactNode } from "react"
 import { UserType } from "../User/types"
 
 export type ResponsePostType = {
@@ -17,5 +17,7 @@ export type PostControlType = {
   label: string,
   href: string,
   icon: ComponentType,
-  className?: string,
+  render?: PostControlFunctionType,
 }
+
+export type PostControlFunctionType = (post: PostType, control: PostControlType) => ReactNode
