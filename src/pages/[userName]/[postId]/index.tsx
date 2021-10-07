@@ -1,37 +1,26 @@
 import Head from "next/head"
 import PostCard from "../../../components/Post/PostCard"
 import { PostType, usePost } from "../../../components/Post"
-import { fetcher } from "../../../api/client"
-import { getURL } from "../../../components/Post/hooks"
 import { useRouter } from "next/router"
-
-type PostDetailProps = {
-  postId: string,
-  fallbackData: PostType,
-}
 
 export default function PostDetail() {
   const router = useRouter()
-  const { user, postId } = router.query
+  const { userName, postId } = router.query
 
-  const { data, isLoading, isError, mutate } = usePost(postId)
-  const postData: PostType = {
-    ...data?.post,
-    author: data?.users[0],
-  }
+  const { data, loading, error } = usePost(postId)
   return (
     <>
       <Head>
         <title>Post Detail | Social</title>
       </Head>
-      {isLoading &&
+      {loading &&
         <div>Loading...</div>
       }
-      {isError &&
-        <div>Something went wrong! {isError}</div>
+      {error &&
+        <div>Error! {error}</div>
       }
       {data &&
-        <PostCard data={postData} />
+        <PostCard post={data.post} />
       }
     </>
   )

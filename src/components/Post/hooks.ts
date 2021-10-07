@@ -1,28 +1,48 @@
-import { useQuery } from "react-query"
+import { useQuery, gql } from "@apollo/client"
 import { UserType } from "../User/types"
-import { ResponsePostType } from "./types"
+import { PostType } from "./types"
 
 type IDType = number | string | string[] | undefined
 
-type ResponseType = {
-  posts: ResponsePostType[],
-  users: UserType[]
+type PostsData = {
+  posts: PostType[]
 }
 
-export function getURL(id: IDType) {
-  let url = "http://localhost:3000/api/posts"
-  if (id) url += `/${id}`
-  return url
+type PostData = {
+  post: PostType
 }
 
 export function usePosts() {
-  return useQuery<ResponseType>("/api/posts")
+  return useQuery<PostsData>(gql`
+    query GetPosts {
+      posts {
+        id
+        content
+        author {
+          id
+          displayName
+          userName
+        }
+      }
+    }
+  `)
 }
 
 export function usePost(id: IDType) {
   const shouldFetch = Boolean(id)
 
-  return useQuery(`/api/posts/${id}`, {
-    enabled: shouldFetch,
-  })
+  return useQuery<PostData>(gql`
+    query GetPost($id: ID!) {
+      post(id: $id) {
+        id
+        content
+        author {
+          id
+          displayName
+          userName
+        }
+      }
+    }
+  `,
+  { variables: { id }, skip: !shouldFetch })
 }

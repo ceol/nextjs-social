@@ -1,30 +1,20 @@
 import "../styles/globals.css"
 import type { AppProps } from "next/app"
-import { makeServer } from "../api/server"
 import Layout from "../components/Layout"
-import { QueryClient, QueryClientProvider } from "react-query"
-import { defaultQueryFn } from "../api/client"
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"
 
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      queryFn: defaultQueryFn,
-    },
-  },
+const client = new ApolloClient({
+  uri: 'http://localhost:3000/api/graphql',
+  cache: new InMemoryCache()
 })
-
-if (process.env.NODE_ENV === "development") {
-  makeServer({ environment: "development" })
-}
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
+    <ApolloProvider client={client}>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </QueryClientProvider>
+    </ApolloProvider>
   )
 }
 export default MyApp
