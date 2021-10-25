@@ -1,4 +1,5 @@
 import * as faker from "faker"
+import { UserType } from "../components/User/types"
 
 const users = [...Array(5)].map((v, i) => {
   const id = i + 1,
@@ -29,6 +30,12 @@ const resolvers = {
     post(parent: any, args: any, context: any, info: any) {
       return posts.find(post => post.id === args.id)
     },
+  },
+
+  User: {
+    posts(parent: UserType) {
+      return posts.filter(post => post.author.id === parent.id)
+    }
   }
 }
 
