@@ -26,7 +26,7 @@ function HeaderLink({ href, children }: { href: string, children: ReactNode}) {
   )
 }
 
-export default function Header() {
+export function Header() {
   return (
     <header className="flex-grow flex-shrink-0 flex flex-col items-end border-r">
       <div className="flex flex-col w-60 mt-2 mb-5">

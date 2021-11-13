@@ -13,7 +13,7 @@ type PostCardProps = {
   post: PostType,
 }
 
-export default function PostCard({ post }: PostCardProps) {
+export function PostCard({ post }: PostCardProps) {
   const url = `/${post.author.userName}/${post.id}`
   return (
     <div>

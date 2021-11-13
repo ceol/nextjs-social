@@ -14,7 +14,7 @@ function PostListItem({ post }: { post: PostType }) {
   )
 }
 
-export default function PostList() {
+export function PostList() {
   const { data, loading, error } = usePosts()
 
   if (loading) return <div>Loading...</div>

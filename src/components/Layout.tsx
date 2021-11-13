@@ -1,11 +1,11 @@
 import * as React from "react"
-import Header from "./Header"
+import { Header } from "./Header"
 
 type Props = {
   children?: React.ReactNode,
 }
 
-export default function Layout({ children }: Props) {
+export function Layout({ children }: Props) {
   return (
     <div className="flex">
       <Header />

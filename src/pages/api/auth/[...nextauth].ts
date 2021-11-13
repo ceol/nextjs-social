@@ -11,7 +11,7 @@ export default NextAuth({
       // You can specify whatever fields you are expecting to be submitted.
       // e.g. domain, username, password, 2FA token, etc.
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "user@example.com" },
+        email: { label: "Email", type: "email", placeholder: "name@example.com" },
         password: {  label: "Password", type: "password" }
       },
       async authorize(credentials, req) {

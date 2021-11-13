@@ -1,5 +1,5 @@
 import Head from "next/head"
-import PostCard from "../../../components/Post/PostCard"
+import { PostCard } from "../../../components/Post/PostCard"
 import { PostType, usePost } from "../../../components/Post"
 import { useRouter } from "next/router"
 

@@ -1,4 +1,4 @@
-import PostList from "./PostList"
+import { PostList } from "./PostList"
 import { usePost, usePosts } from "./hooks"
 import { PostType } from "./types"
 
