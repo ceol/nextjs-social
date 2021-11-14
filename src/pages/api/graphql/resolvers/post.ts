@@ -1,5 +1,4 @@
-import { PostType } from "../../../../components/Post"
-import { posts, users } from "../db"
+import { posts } from "../db"
 
 export default {
   Query: {
@@ -8,7 +7,4 @@ export default {
       return posts.find(post => post.id === args.id)
     },
   },
-  Post: {
-    author: (parent: PostType) => users.filter(user => user.id === parent.author.id)
-  }
 }

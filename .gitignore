@@ -37,3 +37,7 @@ yarn-error.log*
 # visual studio code
 .vscode/
 *.code-workspace
+
+# prisma
+.env
+*.db

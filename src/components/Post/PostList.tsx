@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { usePosts } from "./hooks"
-import PostCard from "./PostCard"
+import { PostCard } from "./PostCard"
 import { PostType } from "./types"
 
 function PostListItem({ post }: { post: PostType }) {
