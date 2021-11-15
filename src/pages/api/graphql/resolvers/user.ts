@@ -1,16 +1,24 @@
 import { UserType } from "../../../../components/User"
-import { posts, users } from "../db"
+import { prisma } from "../db"
 
 export default {
   Query: {
-    users: () => users,
-    user(parent: any, args: any, context: any, info: any) {
-      return users.find(user => user.id === args.id)
-    },
+    users: async () => await prisma.user.findMany(),
+    user: async (parent: any, args: any, context: any, info: any) =>
+      await prisma.user.findUnique({
+        where: {
+          id: args.id,
+        }
+      })
+    ,
   },
   User: {
-    posts: (parent: UserType) => {
-      return posts.filter(post => post.author.id === parent.id)
-    }
+    posts: async (parent: UserType) =>
+      await prisma.post.findMany({
+        where: {
+          authorId: parent.id,
+        }
+      })
+    ,
   }
 }

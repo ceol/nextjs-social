@@ -5,7 +5,10 @@ import { initMiddleware } from "../../../middleware"
 import { resolvers } from "./resolvers"
 import { typeDefs } from "./types"
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers })
+const apolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+})
 let apolloServerHandler: NextApiHandler
 
 async function getServerHandler() {
