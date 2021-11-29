@@ -5,6 +5,7 @@ export const postDefs = gql`
 type Post {
   id: ID
   content: String
+  datePosted: Date
   author: User
 }
 

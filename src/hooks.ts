@@ -1,25 +1,26 @@
 import { useQuery, gql } from "@apollo/client"
-import { PostType } from "./types"
+import { PostData } from "./types"
 
 type IDType = number | string | string[] | undefined
 
-type PostsData = {
-  posts: PostType[]
+type PostsReturnData = {
+  posts: PostData[]
 }
 
-type PostData = {
-  post: PostType
+type PostReturnData = {
+  post: PostData
 }
 
-export function usePosts() {
-  return useQuery<PostsData>(gql`
-query GetPosts {
+export function useHomePosts() {
+  return useQuery<PostsReturnData>(gql`
+query GetHomePosts {
   posts {
     id
     content
+    datePosted
     author {
       id
-      displayName
+      name
       userName
     }
   }
@@ -30,14 +31,15 @@ query GetPosts {
 export function usePost(id: IDType) {
   const shouldFetch = Boolean(id)
 
-  return useQuery<PostData>(gql`
+  return useQuery<PostReturnData>(gql`
 query GetPost($id: ID!) {
   post(id: $id) {
     id
     content
+    datePosted
     author {
       id
-      displayName
+      name
       userName
     }
   }

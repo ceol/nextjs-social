@@ -1,4 +1,4 @@
-import { UserType } from "../../../../components/User"
+import { UserData } from "../../../../types"
 import { prisma } from "../db"
 
 export default {
@@ -13,7 +13,7 @@ export default {
     ,
   },
   User: {
-    posts: async (parent: UserType) =>
+    posts: async (parent: UserData) =>
       await prisma.post.findMany({
         where: {
           authorId: parent.id,

@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { PostList } from "../components/Post"
+import { HomePostList } from "../components/PostList"
 
 export default function Home() {
   return (
@@ -7,7 +7,9 @@ export default function Home() {
       <Head>
         <title>Home | Social</title>
       </Head>
-      <PostList />
+      <div>
+        <HomePostList />
+      </div>
     </>
   )
 }

@@ -1,27 +1,17 @@
 import Head from "next/head"
-import { PostCard } from "../../../components/Post/PostCard"
-import { PostType, usePost } from "../../../components/Post"
 import { useRouter } from "next/router"
+import { PostDetail } from "../../../components/PostDetail"
 
-export default function PostDetail() {
+export default function () {
   const router = useRouter()
   const { userName, postId } = router.query
 
-  const { data, loading, error } = usePost(postId)
   return (
     <>
       <Head>
         <title>Post Detail | Social</title>
       </Head>
-      {loading &&
-        <div>Loading...</div>
-      }
-      {error &&
-        <div>Error! {error}</div>
-      }
-      {data &&
-        <PostCard post={data.post} />
-      }
+      <PostDetail postId={postId} />
     </>
   )
 }

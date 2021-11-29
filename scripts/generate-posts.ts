@@ -4,6 +4,7 @@ import * as faker from "faker"
 function generatePostData() {
   return {
     content: faker.lorem.sentences(Math.floor(Math.random() * 4) + 1),
+    datePosted: faker.date.recent(),
   }
 }
 

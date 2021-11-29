@@ -4,7 +4,7 @@ export const userDefs = gql`
 
 type User {
   id: ID
-  displayName: String
+  name: String
   userName: String
   posts: [Post]
 }
