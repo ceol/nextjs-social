@@ -1,6 +1,6 @@
 import * as React from "react"
 import Link from "next/link"
-import { ChatAlt2Icon, DotsHorizontalIcon, HeartIcon, ShareIcon, UserCircleIcon } from "@heroicons/react/outline"
+import { ChatAlt2Icon, ChevronDoubleUpIcon, DotsHorizontalIcon, HeartIcon, ShareIcon, UserCircleIcon } from "@heroicons/react/outline"
 import { IconComponent, PostData } from "../types"
 
 const MINUTE = 60,
@@ -28,13 +28,17 @@ type ControlProps = {
   label: string,
   icon: IconComponent,
   clickHandler: (event?: React.SyntheticEvent) => void,
+  text?: string | number,
 }
 
-function Control({ icon: Icon, clickHandler }: ControlProps) {
+function Control({ label, icon: Icon, clickHandler, text }: ControlProps) {
   return (
-    <div className="flex-1 flex justify-center">
-      <div className={`rounded-full p-2 cursor-pointer`} onClick={clickHandler}>
+    <div className="flex-1 flex space-x-2 items-center">
+      <div className={`rounded-full cursor-pointer`} onClick={clickHandler}>
         <Icon className="w-5" />
+      </div>
+      <div>
+        {text}
       </div>
     </div>
   )
@@ -49,11 +53,11 @@ export function Post({ post, expanded = false }: PostProps) {
   const authorUrl = `/${post.author.userName}`,
         postUrl = `${authorUrl}/${post.id}`
   return (
-    <div className="flex flex-col border-b hover:bg-gray-50 p-2.5 pb-1.5 text-sm">
-      <div className="flex gap-2">
-        <UserCircleIcon className="self-start flex-shrink-0 w-12 text-gray-400" />
-        <div className="flex flex-col gap-0.5 pb-0.5">
-          <div className="flex gap-1">
+    <div className="flex gap-2 border-b hover:bg-gray-50 p-2.5 text-sm">
+      <UserCircleIcon className="self-start flex-none w-12 text-gray-400" />
+      <div className="flex-grow flex flex-col gap-1">
+        <div className="flex">
+          <div className="flex-grow flex gap-1">
             <Link href={authorUrl}>
               <a className="flex gap-1">
                 <span className="hover:underline">
@@ -73,32 +77,38 @@ export function Post({ post, expanded = false }: PostProps) {
               </a>
             </Link>
           </div>
-          <div>
-            {post.content}
+          <div className="flex-none text-gray-600">
+            <DotsHorizontalIcon className="w-5" />
           </div>
         </div>
-      </div>
-      <div className="flex select-none text-xs text-gray-600">
-        <Control
-          label="Reply"
-          icon={ChatAlt2Icon}
-          clickHandler={() => {}}
-        />
-        <Control
-          label="Like"
-          icon={HeartIcon}
-          clickHandler={() => {}}
-        />
-        <Control
-          label="Share"
-          icon={ShareIcon}
-          clickHandler={() => {}}
-        />
-        <Control
-          label="More"
-          icon={DotsHorizontalIcon}
-          clickHandler={() => {}}
-        />
+        <div>
+          {post.content}
+        </div>
+        <div className="flex-none flex space-x-4 pt-2 pb-1 select-none text-xs text-gray-500">
+          <Control
+            label="Reply"
+            icon={ChatAlt2Icon}
+            clickHandler={() => {}}
+            text={post.replyCount > 0 ? post.replyCount : undefined}
+          />
+          <Control
+            label="Boost"
+            icon={ChevronDoubleUpIcon}
+            clickHandler={() => {}}
+            text={post.boostCount > 0 ? post.boostCount : undefined}
+          />
+          <Control
+            label="Like"
+            icon={HeartIcon}
+            clickHandler={() => {}}
+            text={post.likeCount > 0 ? post.likeCount : undefined}
+          />
+          <Control
+            label="Share"
+            icon={ShareIcon}
+            clickHandler={() => {}}
+          />
+        </div>
       </div>
     </div>
   )

@@ -2,7 +2,7 @@ import Head from "next/head"
 import { useRouter } from "next/router"
 import { PostDetail } from "../../../components/PostDetail"
 
-export default function () {
+export default function PostDetailPage() {
   const router = useRouter()
   const { userName, postId } = router.query
 

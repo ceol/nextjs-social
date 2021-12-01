@@ -1,6 +1,6 @@
 import Head from "next/head"
 
-export default function PostShare() {
+export default function PostSharePage() {
   return (
     <>
       <Head>

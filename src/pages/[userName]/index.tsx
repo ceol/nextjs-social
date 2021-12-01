@@ -1,10 +1,10 @@
 import Head from "next/head"
 
-export default function PostList() {
+export default function AuthorPage() {
   return (
     <>
       <Head>
-        <title>Post List | Social</title>
+        <title>Author | Social</title>
       </Head>
     </>
   )

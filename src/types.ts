@@ -9,6 +9,9 @@ export type PostData = {
   content: string,
   datePosted: number,
   author: UserData,
+  replyCount: number,
+  boostCount: number,
+  likeCount: number,
 }
 
 export type IconComponent = (props: React.ComponentProps<"svg">) => JSX.Element

@@ -1,6 +1,6 @@
 import Head from "next/head"
 
-export default function PostMore() {
+export default function PostMorePage() {
   return (
     <>
       <Head>

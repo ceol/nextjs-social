@@ -1,7 +1,7 @@
 import Head from "next/head"
 import { HomePostList } from "../components/PostList"
 
-export default function Home() {
+export default function HomePage() {
   return (
     <>
       <Head>

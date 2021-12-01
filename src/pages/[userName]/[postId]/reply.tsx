@@ -1,6 +1,6 @@
 import Head from "next/head"
 
-export default function PostReply() {
+export default function PostReplyPage() {
   return (
     <>
       <Head>
