@@ -19,7 +19,7 @@ query GetHomePosts {
     content
     datePosted
     replyCount
-    boostCount
+    repostCount
     likeCount
     author {
       id
@@ -41,7 +41,7 @@ query GetPost($id: ID!) {
     content
     datePosted
     replyCount
-    boostCount
+    repostCount
     likeCount
     author {
       id

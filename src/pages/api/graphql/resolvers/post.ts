@@ -2,17 +2,20 @@ import { prisma } from "../db"
 
 export default {
   Query: {
-    posts: async () => await prisma.post.findMany({
-      include: {
-        author: true,
-      },
-      orderBy: {
-        datePosted: "desc",
-      },
-      take: 20,
-    }),
-    post: async (parent: any, args: any, context: any, info: any) =>
-      await prisma.post.findUnique({
+    posts: async () => {
+      return await prisma.post.findMany({
+        include: {
+          author: true,
+        },
+        orderBy: {
+          datePosted: "desc",
+        },
+        take: 20,
+      })
+    },
+
+    post: async (parent: any, args: any, context: any, info: any) => {
+      return await prisma.post.findUnique({
         where: {
           id: args.id,
         },
@@ -20,8 +23,23 @@ export default {
           author: true,
         }
       })
-    ,
+    },
+
+    homePosts: async (parent: any, args: any, context: any, info: any) => {
+      const user = context?.user
+      return await prisma.post.findMany({
+        include: {
+          author: true,
+          likedBy: {
+            where: {
+              id: user?.id,
+            }
+          }
+        }
+      })
+    }
   },
+
   Mutation: {
     addPost: async (parent: any, args: any, context: any, info: any) => {
       const user = await prisma.user.findFirst()
@@ -59,85 +77,179 @@ export default {
         code: "",
         success: true,
         message: "",
-      }
-    },
-
-    boostPost: async (parent: any, args: any, context: any, info: any) => {
-      const post = await prisma.post.update({
-        data: {
-          boostCount: {
-            increment: 1,
-          }
-        },
-        where: {
-          id: args.id,
-        }
-      })
-
-      return {
-        code: "",
-        success: true,
-        message: "",
         post: post,
       }
     },
 
-    unboostPost: async (parent: any, args: any, context: any, info: any) => {
-      const post = await prisma.post.update({
-        data: {
-          boostCount: {
-            decrement: 1,
+    repostPost: async (parent: any, args: any, context: any, info: any) => {
+      const user = await prisma.user.findFirst({
+        select: {
+          id: true,
+          reposts: {
+            where: {
+              id: args.id,
+            }
           }
-        },
-        where: {
-          id: args.id,
         }
       })
+      if (user && user.reposts.length == 0) {
+        const post = await prisma.post.update({
+          data: {
+            repostCount: {
+              increment: 1,
+            },
+            repostedBy: {
+              connect: {
+                id: user.id,
+              }
+            }
+          },
+          where: {
+            id: args.id,
+          }
+        })
+
+        return {
+          code: "",
+          success: true,
+          message: "",
+          post: post,
+        }
+      }
+
       return {
         code: "",
-        success: true,
+        success: false,
         message: "",
-        post: post,
+      }
+    },
+
+    unrepostPost: async (parent: any, args: any, context: any, info: any) => {
+      const user = await prisma.user.findFirst({
+        select: {
+          id: true,
+          reposts: {
+            where: {
+              id: args.id,
+            }
+          }
+        }
+      })
+      if (user && user.reposts.length > 0) {
+        const post = await prisma.post.update({
+          data: {
+            repostCount: {
+              decrement: 1,
+            },
+            repostedBy: {
+              disconnect: {
+                id: user.id,
+              }
+            }
+          },
+          where: {
+            id: args.id,
+          }
+        })
+
+        return {
+          code: "",
+          success: true,
+          message: "",
+          post: post,
+        }
+      }
+
+      return {
+        code: "",
+        success: false,
+        message: "",
       }
     },
 
     likePost: async (parent: any, args: any, context: any, info: any) => {
-      const post = await prisma.post.update({
-        data: {
-          likeCount: {
-            increment: 1,
+      const user = await prisma.user.findFirst({
+        select: {
+          id: true,
+          likes: {
+            where: {
+              id: args.id,
+            }
           }
-        },
-        where: {
-          id: args.id,
         }
       })
+      if (user && user.likes.length == 0) {
+        const post = await prisma.post.update({
+          data: {
+            likeCount: {
+              increment: 1,
+            },
+            likedBy: {
+              connect: {
+                id: user.id,
+              }
+            }
+          },
+          where: {
+            id: args.id,
+          }
+        })
+
+        return {
+          code: "",
+          success: true,
+          message: "",
+          post: post,
+        }
+      }
 
       return {
         code: "",
-        success: true,
+        success: false,
         message: "",
-        post: post,
       }
     },
 
     unlikePost: async (parent: any, args: any, context: any, info: any) => {
-      const post = await prisma.post.update({
-        data: {
-          likeCount: {
-            decrement: 1,
+      const user = await prisma.user.findFirst({
+        select: {
+          id: true,
+          likes: {
+            where: {
+              id: args.id,
+            }
           }
-        },
-        where: {
-          id: args.id,
         }
       })
+      if (user && user.likes.length > 0) {
+        const post = await prisma.post.update({
+          data: {
+            likeCount: {
+              decrement: 1,
+            },
+            likedBy: {
+              disconnect: {
+                id: user.id,
+              }
+            }
+          },
+          where: {
+            id: args.id,
+          }
+        })
+
+        return {
+          code: "",
+          success: true,
+          message: "",
+          post: post,
+        }
+      }
 
       return {
         code: "",
-        success: true,
+        success: false,
         message: "",
-        post: post,
       }
     },
   },

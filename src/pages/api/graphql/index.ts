@@ -4,10 +4,17 @@ import Cors from "cors"
 import { initMiddleware } from "../../../middleware"
 import { resolvers } from "./resolvers"
 import { typeDefs } from "./types"
+import { prisma } from "./db"
 
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  context: async ({ req }) => {
+    const user = await prisma.user.findFirst()
+    return {
+      user: user,
+    }
+  }
 })
 let apolloServerHandler: NextApiHandler
 

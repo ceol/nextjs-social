@@ -7,9 +7,12 @@ type Post {
   content: String
   datePosted: Date
   replyCount: Int
-  boostCount: Int
+  repostCount: Int
   likeCount: Int
   author: User
+
+  likedBy: [User]
+  repostedBy: [User]
 }
 
 type AddPostMutationResponse implements MutationResponse {
@@ -23,16 +26,17 @@ type DeletePostMutationResponse implements MutationResponse {
   code: String!
   success: Boolean!
   message: String!
+  post: Post
 }
 
-type BoostPostMutationResponse implements MutationResponse {
+type RepostPostMutationResponse implements MutationResponse {
   code: String!
   success: Boolean!
   message: String!
   post: Post
 }
 
-type UnboostPostMutationResponse implements MutationResponse {
+type UnrepostPostMutationResponse implements MutationResponse {
   code: String!
   success: Boolean!
   message: String!
@@ -56,14 +60,15 @@ type UnlikePostMutationResponse implements MutationResponse {
 type Query {
   posts: [Post]
   post(id: ID!): Post
+  homePosts: [Post]
 }
 
 type Mutation {
   addPost(content: String!): AddPostMutationResponse
   deletePost(id: ID!): DeletePostMutationResponse
 
-  boostPost(id: ID!): BoostPostMutationResponse
-  unboostPost(id: ID!): UnboostPostMutationResponse
+  repostPost(id: ID!): RepostPostMutationResponse
+  unrepostPost(id: ID!): UnrepostPostMutationResponse
 
   likePost(id: ID!): LikePostMutationResponse
   unlikePost(id: ID!): UnlikePostMutationResponse

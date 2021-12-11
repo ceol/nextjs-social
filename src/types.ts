@@ -10,7 +10,7 @@ export type PostData = {
   datePosted: number,
   author: UserData,
   replyCount: number,
-  boostCount: number,
+  repostCount: number,
   likeCount: number,
 }
 

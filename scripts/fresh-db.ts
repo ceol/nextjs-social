@@ -17,7 +17,7 @@ function generatePostData() {
     content: faker.lorem.sentences(Math.floor(Math.random() * 4) + 1),
     datePosted: faker.date.recent(),
     replyCount: Math.floor(Math.random() * 120),
-    boostCount: Math.floor(Math.random() * 120),
+    repostCount: Math.floor(Math.random() * 120),
     likeCount: Math.floor(Math.random() * 400),
   }
 }

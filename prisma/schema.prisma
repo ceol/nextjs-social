@@ -38,11 +38,13 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  userName      String?   @unique
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  userName      String?   @unique
   accounts      Account[]
+  reposts       Post[]    @relation("RepostedPosts")
+  likes         Post[]    @relation("LikedPosts")
   posts         Post[]
   sessions      Session[]
 }
@@ -59,9 +61,14 @@ model Post {
   id         String   @id @default(cuid())
   content    String
   datePosted DateTime @default(now())
-  authorId   String
-  author     User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   replyCount Int      @default(0)
-  boostCount Int      @default(0)
-  likeCount  Int      @default(0)
+
+  repostCount Int    @default(0)
+  repostedBy  User[] @relation("RepostedPosts")
+
+  likeCount Int    @default(0)
+  likedBy   User[] @relation("LikedPosts")
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }

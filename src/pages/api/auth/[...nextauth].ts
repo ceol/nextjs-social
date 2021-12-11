@@ -1,7 +1,8 @@
 import NextAuth from "next-auth"
-import Providers from "next-auth/providers"
+import Credentials from "next-auth/providers/credentials"
+import GitHub from "next-auth/providers/github"
 
-const CredentialsProvider = Providers.Credentials({
+const CredentialsProvider = Credentials({
   // The name to display on the sign in form (e.g. 'Sign in with...')
   name: 'Credentials',
   // The credentials is used to generate a suitable form on the sign in page.
@@ -34,7 +35,7 @@ const CredentialsProvider = Providers.Credentials({
   }
 })
 
-const GitHubProvider = Providers.GitHub({
+const GitHubProvider = GitHub({
   clientId: process.env.GITHUB_ID,
   clientSecret: process.env.GITHUB_SECRET,
 })

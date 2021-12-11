@@ -1,6 +1,6 @@
 import * as React from "react"
 import Link from "next/link"
-import { ChatAlt2Icon, ChevronDoubleUpIcon, DotsHorizontalIcon, HeartIcon, ShareIcon, UserCircleIcon } from "@heroicons/react/outline"
+import { ChatAlt2Icon, DotsHorizontalIcon, HeartIcon, RefreshIcon, ShareIcon, UserCircleIcon } from "@heroicons/react/outline"
 import { IconComponent, PostData } from "../types"
 
 const MINUTE = 60,
@@ -92,10 +92,10 @@ export function Post({ post, expanded = false }: PostProps) {
             text={post.replyCount > 0 ? post.replyCount : undefined}
           />
           <Control
-            label="Boost"
-            icon={ChevronDoubleUpIcon}
+            label="Repost"
+            icon={RefreshIcon}
             clickHandler={() => {}}
-            text={post.boostCount > 0 ? post.boostCount : undefined}
+            text={post.repostCount > 0 ? post.repostCount : undefined}
           />
           <Control
             label="Like"
