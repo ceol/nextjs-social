@@ -1,6 +1,32 @@
+import { User, Prisma } from "@prisma/client"
 import { prisma } from "../db"
 
+type Post = Prisma.PostGetPayload<{
+  include: {
+    likedBy: true,
+    repostedBy: true,
+  }
+}>
+
 export default {
+  Post: {
+    isLiked: async (parent: Post, args: any, context: any) => {
+      const user = context?.user
+      if (user) {
+        return Boolean(parent.likedBy.find(likedUser => likedUser.id == user.id))
+      }
+
+      return false
+    },
+    isReposted: async (parent: Post, args: any, context: any) => {
+      const user = context?.user
+      if (user) {
+        return Boolean(parent.repostedBy.find(repostedUser => repostedUser.id == user.id))
+      }
+
+      return false
+    },
+  },
   Query: {
     posts: async () => {
       return await prisma.post.findMany({
@@ -33,11 +59,20 @@ export default {
           likedBy: {
             where: {
               id: user?.id,
-            }
-          }
-        }
+            },
+          },
+          repostedBy: {
+            where: {
+              id: user?.id,
+            },
+          },
+        },
+        orderBy: {
+          datePosted: "desc",
+        },
+        take: 20,
       })
-    }
+    },
   },
 
   Mutation: {

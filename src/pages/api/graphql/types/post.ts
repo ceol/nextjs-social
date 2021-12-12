@@ -11,8 +11,8 @@ type Post {
   likeCount: Int
   author: User
 
-  likedBy: [User]
-  repostedBy: [User]
+  isLiked: Boolean
+  isReposted: Boolean
 }
 
 type AddPostMutationResponse implements MutationResponse {

@@ -9,10 +9,10 @@ type HeaderControlType = {
 }
 
 const headerControls: HeaderControlType[] = [
-  {label: "Home", href: "/", icon: HomeIcon},
+  {label: "Home", href: "/home", icon: HomeIcon},
   {label: "Notifications", href: "/notifications", icon: BellIcon},
-  {label: "Messages", href: "/", icon: MailIcon},
-  {label: "Profile", href: "/", icon: UserIcon},
+  {label: "Messages", href: "/messages", icon: MailIcon},
+  {label: "Profile", href: "/profile", icon: UserIcon},
   {label: "More", href: "/", icon: DotsCircleHorizontalIcon},
 ]
 
