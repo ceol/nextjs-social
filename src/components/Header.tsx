@@ -2,18 +2,18 @@ import { AtSymbolIcon, BellIcon, DotsCircleHorizontalIcon, HomeIcon, MailIcon, U
 import Link from "next/link"
 import { ComponentType, ReactNode } from "react"
 
-type HeaderControlType = {
+type HeaderControl = {
   label: string,
   href: string,
   icon: ComponentType,
 }
 
-const headerControls: HeaderControlType[] = [
+const controls: HeaderControl[] = [
   {label: "Home", href: "/home", icon: HomeIcon},
   {label: "Notifications", href: "/notifications", icon: BellIcon},
   {label: "Messages", href: "/messages", icon: MailIcon},
   {label: "Profile", href: "/profile", icon: UserIcon},
-  {label: "More", href: "/", icon: DotsCircleHorizontalIcon},
+  {label: "More", href: "", icon: DotsCircleHorizontalIcon},
 ]
 
 function HeaderLink({ href, children }: { href: string, children: ReactNode}) {
@@ -36,7 +36,7 @@ export function Header() {
         </HeaderLink>
       </div>
       <div className="flex flex-col w-60">
-        {headerControls && headerControls.map((control: HeaderControlType, index) => (
+        {controls && controls.map((control: HeaderControl, index) => (
           <HeaderLink href={control.href} key={index}>
             <control.icon
               // @ts-ignore

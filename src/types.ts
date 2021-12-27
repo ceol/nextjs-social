@@ -12,6 +12,8 @@ export type PostData = {
   replyCount: number,
   repostCount: number,
   likeCount: number,
+  isLiked: boolean,
+  isReposted: boolean,
 }
 
 export type IconComponent = (props: React.ComponentProps<"svg">) => JSX.Element

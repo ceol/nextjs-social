@@ -15,6 +15,13 @@ type Post {
   isReposted: Boolean
 }
 
+type PostMutationResponse implements MutationResponse {
+  code: String!
+  success: Boolean!
+  message: String!
+  post: Post
+}
+
 type AddPostMutationResponse implements MutationResponse {
   code: String!
   success: Boolean!
@@ -58,19 +65,18 @@ type UnlikePostMutationResponse implements MutationResponse {
 }
 
 type Query {
-  posts: [Post]
   post(id: ID!): Post
   homePosts: [Post]
 }
 
 type Mutation {
-  addPost(content: String!): AddPostMutationResponse
-  deletePost(id: ID!): DeletePostMutationResponse
+  addPost(content: String!): PostMutationResponse
+  deletePost(id: ID!): PostMutationResponse
 
-  repostPost(id: ID!): RepostPostMutationResponse
-  unrepostPost(id: ID!): UnrepostPostMutationResponse
+  repostPost(id: ID!): PostMutationResponse
+  unrepostPost(id: ID!): PostMutationResponse
 
-  likePost(id: ID!): LikePostMutationResponse
-  unlikePost(id: ID!): UnlikePostMutationResponse
+  likePost(id: ID!): PostMutationResponse
+  unlikePost(id: ID!): PostMutationResponse
 }
 `

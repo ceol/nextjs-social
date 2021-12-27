@@ -1,7 +1,9 @@
 import * as React from "react"
 import Link from "next/link"
 import { ChatAlt2Icon, DotsHorizontalIcon, HeartIcon, RefreshIcon, ShareIcon, UserCircleIcon } from "@heroicons/react/outline"
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid"
 import { IconComponent, PostData } from "../types"
+import { useLikePost, useUnlikePost } from "../hooks"
 
 const MINUTE = 60,
       HOUR = MINUTE * 60,
@@ -27,13 +29,15 @@ function getReadableDate(dateInSeconds: number) {
 type ControlProps = {
   label: string,
   icon: IconComponent,
-  clickHandler: (event?: React.SyntheticEvent) => void,
+  clickHandler: (event: React.SyntheticEvent) => void,
   text?: string | number,
+  className?: string,
 }
 
-function Control({ label, icon: Icon, clickHandler, text }: ControlProps) {
+function Control({ label, icon: Icon, clickHandler, text, className = "" }: ControlProps) {
+  const controlRef = React.useRef()
   return (
-    <div className="flex-1 flex space-x-2 items-center">
+    <div className={`flex-1 flex space-x-2 items-center ${className}`}>
       <div className={`rounded-full cursor-pointer`} onClick={clickHandler}>
         <Icon className="w-5" />
       </div>
@@ -44,14 +48,30 @@ function Control({ label, icon: Icon, clickHandler, text }: ControlProps) {
   )
 }
 
-type PostProps = {
+function handleReplyClick(event: React.SyntheticEvent, post: PostData) {
+
+}
+
+function handleRepostClick(event: React.SyntheticEvent, post: PostData) {
+
+}
+
+function handleLikeClick(event: React.SyntheticEvent, post: PostData) {
+
+}
+
+type PostCardProps = {
   post: PostData,
   expanded?: Boolean,
 }
 
-export function Post({ post, expanded = false }: PostProps) {
+export function PostCard({ post, expanded = false }: PostCardProps) {
   const authorUrl = `/${post.author.userName}`,
         postUrl = `${authorUrl}/${post.id}`
+
+  const [likeMutation] = useLikePost(post.id)
+  const [unlikeMutation] = useUnlikePost(post.id)
+
   return (
     <div className="flex gap-2 border-b hover:bg-gray-50 p-2.5 text-sm">
       <UserCircleIcon className="self-start flex-none w-12 text-gray-400" />
@@ -88,20 +108,22 @@ export function Post({ post, expanded = false }: PostProps) {
           <Control
             label="Reply"
             icon={ChatAlt2Icon}
-            clickHandler={() => {}}
+            clickHandler={(e) => handleReplyClick(e, post)}
             text={post.replyCount > 0 ? post.replyCount : undefined}
           />
           <Control
             label="Repost"
             icon={RefreshIcon}
-            clickHandler={() => {}}
+            clickHandler={(e) => handleRepostClick(e, post)}
             text={post.repostCount > 0 ? post.repostCount : undefined}
+            className={post.isReposted ? "text-green-600" : undefined}
           />
           <Control
             label="Like"
-            icon={HeartIcon}
-            clickHandler={() => {}}
+            icon={post.isLiked ? HeartIconSolid : HeartIcon}
+            clickHandler={(e) => handleLikeClick(e, post)}
             text={post.likeCount > 0 ? post.likeCount : undefined}
+            className={post.isLiked ? "text-pink-600" : undefined}
           />
           <Control
             label="Share"

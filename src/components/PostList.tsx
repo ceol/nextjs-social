@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { useHomePosts } from "../hooks"
 import { PostData } from "../types"
-import { Post } from "./Post"
+import { PostCard } from "./PostCard"
 
 type PostListItemProps = {
   post: PostData,
@@ -13,7 +13,7 @@ function PostListItem({ post }: PostListItemProps) {
   return (
     <Link href={postUrl}>
       <div className="cursor-pointer">
-        <Post post={post} />
+        <PostCard post={post} />
       </div>
     </Link>
   )
@@ -40,5 +40,5 @@ export function HomePostList() {
   if (error) return <div>Error! {error}</div>
   if (! data) return <div>Something went wrong :(</div>
 
-    return <PostList posts={data.posts} />
+    return <PostList posts={data.homePosts} />
 }

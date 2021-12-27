@@ -1,5 +1,5 @@
 import { usePost } from "../hooks"
-import { Post } from "./Post"
+import { PostCard } from "./PostCard"
 
 type PostDetailProps = {
   postId: string | string[] | undefined,
@@ -13,6 +13,6 @@ export function PostDetail({ postId }: PostDetailProps) {
   if (! data) return <div>Something went wrong :(</div>
 
   return (
-    <Post post={data.post} />
+    <PostCard post={data.post} />
   )
 }

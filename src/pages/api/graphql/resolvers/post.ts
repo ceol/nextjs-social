@@ -28,25 +28,24 @@ export default {
     },
   },
   Query: {
-    posts: async () => {
-      return await prisma.post.findMany({
-        include: {
-          author: true,
-        },
-        orderBy: {
-          datePosted: "desc",
-        },
-        take: 20,
-      })
-    },
-
     post: async (parent: any, args: any, context: any, info: any) => {
+      const user = context?.user
       return await prisma.post.findUnique({
         where: {
           id: args.id,
         },
         include: {
           author: true,
+          likedBy: {
+            where: {
+              id: user?.id,
+            }
+          },
+          repostedBy: {
+            where: {
+              id: user?.id,
+            },
+          },
         }
       })
     },
