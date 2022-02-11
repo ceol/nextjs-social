@@ -1,4 +1,4 @@
-import { User, Prisma } from "@prisma/client"
+import { Prisma } from "@prisma/client"
 import { prisma } from "../db"
 
 type Post = Prisma.PostGetPayload<{
@@ -8,19 +8,27 @@ type Post = Prisma.PostGetPayload<{
   }
 }>
 
+type User = Prisma.UserGetPayload<{
+  include: {
+    id: true,
+    likes: true,
+    reposts: true,
+  }
+}>
+
 export default {
   Post: {
     isLiked: async (parent: Post, args: any, context: any) => {
-      const user = context?.user
-      if (user) {
+      const user: User = context?.user
+      if (user && parent.likedBy) {
         return Boolean(parent.likedBy.find(likedUser => likedUser.id == user.id))
       }
 
       return false
     },
     isReposted: async (parent: Post, args: any, context: any) => {
-      const user = context?.user
-      if (user) {
+      const user: User = context?.user
+      if (user && parent.repostedBy) {
         return Boolean(parent.repostedBy.find(repostedUser => repostedUser.id == user.id))
       }
 
@@ -29,7 +37,7 @@ export default {
   },
   Query: {
     post: async (parent: any, args: any, context: any, info: any) => {
-      const user = context?.user
+      const user: User = context?.user
       return await prisma.post.findUnique({
         where: {
           id: args.id,
@@ -51,7 +59,7 @@ export default {
     },
 
     homePosts: async (parent: any, args: any, context: any, info: any) => {
-      const user = context?.user
+      const user: User = context?.user
       return await prisma.post.findMany({
         include: {
           author: true,
@@ -76,7 +84,7 @@ export default {
 
   Mutation: {
     addPost: async (parent: any, args: any, context: any, info: any) => {
-      const user = await prisma.user.findFirst()
+      const user: User = context?.user
       if (user) {
         const post = await prisma.post.create({
           data: {
@@ -116,17 +124,8 @@ export default {
     },
 
     repostPost: async (parent: any, args: any, context: any, info: any) => {
-      const user = await prisma.user.findFirst({
-        select: {
-          id: true,
-          reposts: {
-            where: {
-              id: args.id,
-            }
-          }
-        }
-      })
-      if (user && user.reposts.length == 0) {
+      const user: User = context?.user
+      if (user && !user.reposts.find(post => post.id === args.id)) {
         const post = await prisma.post.update({
           data: {
             repostCount: {
@@ -140,6 +139,13 @@ export default {
           },
           where: {
             id: args.id,
+          },
+          include: {
+            repostedBy: {
+              where: {
+                id: user.id,
+              }
+            }
           }
         })
 
@@ -159,16 +165,7 @@ export default {
     },
 
     unrepostPost: async (parent: any, args: any, context: any, info: any) => {
-      const user = await prisma.user.findFirst({
-        select: {
-          id: true,
-          reposts: {
-            where: {
-              id: args.id,
-            }
-          }
-        }
-      })
+      const user: User = context?.user
       if (user && user.reposts.length > 0) {
         const post = await prisma.post.update({
           data: {
@@ -183,6 +180,13 @@ export default {
           },
           where: {
             id: args.id,
+          },
+          include: {
+            repostedBy: {
+              where: {
+                id: user.id,
+              }
+            }
           }
         })
 
@@ -202,17 +206,8 @@ export default {
     },
 
     likePost: async (parent: any, args: any, context: any, info: any) => {
-      const user = await prisma.user.findFirst({
-        select: {
-          id: true,
-          likes: {
-            where: {
-              id: args.id,
-            }
-          }
-        }
-      })
-      if (user && user.likes.length == 0) {
+      const user: User = context?.user
+      if (user && !user.likes.find(post => post.id === args.id)) {
         const post = await prisma.post.update({
           data: {
             likeCount: {
@@ -226,6 +221,13 @@ export default {
           },
           where: {
             id: args.id,
+          },
+          include: {
+            likedBy: {
+              where: {
+                id: user.id,
+              }
+            }
           }
         })
 
@@ -245,16 +247,7 @@ export default {
     },
 
     unlikePost: async (parent: any, args: any, context: any, info: any) => {
-      const user = await prisma.user.findFirst({
-        select: {
-          id: true,
-          likes: {
-            where: {
-              id: args.id,
-            }
-          }
-        }
-      })
+      const user: User = context?.user
       if (user && user.likes.length > 0) {
         const post = await prisma.post.update({
           data: {
@@ -269,6 +262,13 @@ export default {
           },
           where: {
             id: args.id,
+          },
+          include: {
+            likedBy: {
+              where: {
+                id: user.id,
+              }
+            }
           }
         })
 

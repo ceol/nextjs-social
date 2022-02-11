@@ -13,6 +13,11 @@ export function PostDetail({ postId }: PostDetailProps) {
   if (! data) return <div>Something went wrong :(</div>
 
   return (
-    <PostCard post={data.post} />
+    <PostCard
+      post={data.post}
+      handleReplyClick={() => {}}
+      handleRepostClick={() => {}}
+      handleLikeClick={() => {}}
+    />
   )
 }

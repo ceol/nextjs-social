@@ -10,9 +10,15 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req }) => {
-    const user = await prisma.user.findFirst()
+    const user = await prisma.user.findFirst({
+      select: {
+        id: true,
+        likes: true,
+        reposts: true,
+      }
+    })
     return {
-      user: user,
+      user,
     }
   }
 })

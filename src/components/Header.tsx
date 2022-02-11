@@ -1,11 +1,11 @@
 import { AtSymbolIcon, BellIcon, DotsCircleHorizontalIcon, HomeIcon, MailIcon, UserIcon } from "@heroicons/react/outline"
 import Link from "next/link"
-import { ComponentType, ReactNode } from "react"
+import React, { ReactNode } from "react"
 
 type HeaderControl = {
   label: string,
   href: string,
-  icon: ComponentType,
+  icon: (props: React.ComponentProps<'svg'>) => JSX.Element,
 }
 
 const controls: HeaderControl[] = [
@@ -13,7 +13,7 @@ const controls: HeaderControl[] = [
   {label: "Notifications", href: "/notifications", icon: BellIcon},
   {label: "Messages", href: "/messages", icon: MailIcon},
   {label: "Profile", href: "/profile", icon: UserIcon},
-  {label: "More", href: "", icon: DotsCircleHorizontalIcon},
+  {label: "More", href: "#", icon: DotsCircleHorizontalIcon},
 ]
 
 function HeaderLink({ href, children }: { href: string, children: ReactNode}) {
@@ -36,13 +36,10 @@ export function Header() {
         </HeaderLink>
       </div>
       <div className="flex flex-col w-60">
-        {controls && controls.map((control: HeaderControl, index) => (
-          <HeaderLink href={control.href} key={index}>
-            <control.icon
-              // @ts-ignore
-              className="w-8"
-            />
-            {control.label}
+        {controls.map(({ label, href, icon: Icon }, index) => (
+          <HeaderLink href={href} key={index}>
+            <Icon className="w-8" />
+            {label}
           </HeaderLink>
         ))}
       </div>
