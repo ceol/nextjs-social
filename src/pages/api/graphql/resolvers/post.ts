@@ -54,6 +54,11 @@ export default {
               id: user?.id,
             },
           },
+          replies: {
+            include: {
+              author: true
+            }
+          },
         }
       })
     },
@@ -77,7 +82,7 @@ export default {
         orderBy: {
           datePosted: "desc",
         },
-        take: 20,
+        take: 100,
       })
     },
   },

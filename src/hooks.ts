@@ -53,8 +53,30 @@ export function usePost(id: IDType) {
         content
         datePosted
 
+        replies {
+          id
+          content
+          datePosted
+
+          author {
+            id
+            name
+            userName
+          }
+
+          replyCount
+
+          repostCount
+
+          likeCount
+
+          isLiked
+          isReposted
+        }
         replyCount
+
         repostCount
+
         likeCount
 
         isLiked

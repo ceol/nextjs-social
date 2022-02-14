@@ -6,10 +6,16 @@ type Post {
   id: ID
   content: String
   datePosted: Date
-  replyCount: Int
-  repostCount: Int
-  likeCount: Int
   author: User
+
+  replies: [Post]
+  replyCount: Int
+
+  repostedBy: [User]
+  repostCount: Int
+
+  likedBy: [User]
+  likeCount: Int
 
   isLiked: Boolean
   isReposted: Boolean

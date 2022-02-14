@@ -61,14 +61,18 @@ model Post {
   id         String   @id @default(cuid())
   content    String
   datePosted DateTime @default(now())
-  replyCount Int      @default(0)
 
-  repostCount Int    @default(0)
   repostedBy  User[] @relation("RepostedPosts")
+  repostCount Int    @default(0)
 
-  likeCount Int    @default(0)
   likedBy   User[] @relation("LikedPosts")
+  likeCount Int    @default(0)
 
   authorId String
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  parentId   String?
+  parent     Post?   @relation("PostReplies", fields: [parentId], references: [id])
+  replies    Post[]  @relation("PostReplies")
+  replyCount Int     @default(0)
 }

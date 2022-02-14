@@ -1,5 +1,6 @@
 import { usePost } from "../hooks"
 import { PostCard } from "./PostCard"
+import { ReplyList } from "./ReplyList"
 
 type PostDetailProps = {
   postId: string | string[] | undefined,
@@ -13,11 +14,14 @@ export function PostDetail({ postId }: PostDetailProps) {
   if (! data) return <div>Something went wrong :(</div>
 
   return (
-    <PostCard
-      post={data.post}
-      handleReplyClick={() => {}}
-      handleRepostClick={() => {}}
-      handleLikeClick={() => {}}
-    />
+    <div>
+      <PostCard
+        post={data.post}
+        handleReplyClick={() => {}}
+        handleRepostClick={() => {}}
+        handleLikeClick={() => {}}
+      />
+      <ReplyList replies={data.post.replies} />
+    </div>
   )
 }
