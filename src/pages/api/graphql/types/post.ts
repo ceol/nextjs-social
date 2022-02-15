@@ -28,55 +28,13 @@ type PostMutationResponse implements MutationResponse {
   post: Post
 }
 
-type AddPostMutationResponse implements MutationResponse {
-  code: String!
-  success: Boolean!
-  message: String!
-  post: Post
-}
-
-type DeletePostMutationResponse implements MutationResponse {
-  code: String!
-  success: Boolean!
-  message: String!
-  post: Post
-}
-
-type RepostPostMutationResponse implements MutationResponse {
-  code: String!
-  success: Boolean!
-  message: String!
-  post: Post
-}
-
-type UnrepostPostMutationResponse implements MutationResponse {
-  code: String!
-  success: Boolean!
-  message: String!
-  post: Post
-}
-
-type LikePostMutationResponse implements MutationResponse {
-  code: String!
-  success: Boolean!
-  message: String!
-  post: Post
-}
-
-type UnlikePostMutationResponse implements MutationResponse {
-  code: String!
-  success: Boolean!
-  message: String!
-  post: Post
-}
-
 type Query {
   post(id: ID!): Post
   homePosts: [Post]
 }
 
 type Mutation {
-  addPost(content: String!): PostMutationResponse
+  addPost(content: String!, parentId: String): PostMutationResponse
   deletePost(id: ID!): PostMutationResponse
 
   repostPost(id: ID!): PostMutationResponse

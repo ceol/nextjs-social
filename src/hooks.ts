@@ -1,4 +1,4 @@
-import { useQuery, gql, useMutation, MutationHookOptions } from "@apollo/client"
+import { useQuery, gql, useMutation } from "@apollo/client"
 import { PostData } from "./types"
 
 type IDType = number | string | string[] | undefined
@@ -12,10 +12,14 @@ type PostReturnData = {
 }
 
 type PostMutationResponse = {
-  code: string,
-  success: boolean,
-  message: string,
-  post?: PostData,
+  code: string
+  success: boolean
+  message: string
+  post?: PostData
+}
+
+type AddPostMutationResponse = {
+  addPost: PostMutationResponse
 }
 
 export function useHomePosts() {
@@ -98,27 +102,48 @@ export function usePost(id: IDType) {
   })
 }
 
-const defaultOptions: MutationHookOptions = {
-  update(cache, { data }) {
-    if (data?.success && data?.post) {
-      const post = data.post
-      cache.modify({
-        fields: {
-          homePosts(existingPosts: PostData[] = []) {
-            return existingPosts.map(p => (
-              p.id === post.id ?
-                { ...p, ...post }
-                : p
-            ))
+export function useAddPost() {
+  return useMutation<AddPostMutationResponse>(gql`
+    mutation AddPost($content: String!, $parentId: String) {
+      addPost(content: $content, parentId: $parentId) {
+        code
+        success
+        message
+        post {
+          id
+          content
+          datePosted
+
+          author {
+            id
+            name
+            userName
           }
         }
-      })
+      }
     }
-  }
+  `,
+  {
+    update(cache, { data }) {
+      if (data?.addPost.success && data?.addPost.post) {
+        const post = data?.addPost.post
+        cache.modify({
+          fields: {
+            homePosts(existingPosts: PostData[] = []) {
+              return [
+                post,
+                ...existingPosts,
+              ]
+            }
+          }
+        })
+      }
+    }
+  })
 }
 
 export function useRepostPost() {
-  return useMutation<PostMutationResponse>(gql`
+  return useMutation<{ repostPost: PostMutationResponse }>(gql`
     mutation RepostPost($id: ID!) {
       repostPost(id: $id) {
         code
@@ -131,14 +156,11 @@ export function useRepostPost() {
         }
       }
     }
-  `,
-  {
-    ...defaultOptions
-  })
+  `)
 }
 
 export function useUnrepostPost() {
-  return useMutation<PostMutationResponse>(gql`
+  return useMutation<{ unrepostPost: PostMutationResponse }>(gql`
     mutation UnrepostPost($id: ID!) {
       unrepostPost(id: $id) {
         code
@@ -151,14 +173,11 @@ export function useUnrepostPost() {
         }
       }
     }
-  `,
-  {
-    ...defaultOptions
-  })
+  `)
 }
 
 export function useLikePost() {
-  return useMutation<PostMutationResponse>(gql`
+  return useMutation<{ likePost: PostMutationResponse }>(gql`
     mutation LikePost($id: ID!) {
       likePost(id: $id) {
         code
@@ -171,14 +190,11 @@ export function useLikePost() {
         }
       }
     }
-  `,
-  {
-    ...defaultOptions
-  })
+  `)
 }
 
 export function useUnlikePost() {
-  return useMutation<PostMutationResponse>(gql`
+  return useMutation<{ unlikePost: PostMutationResponse }>(gql`
     mutation UnLikePost($id: ID!) {
       unlikePost(id: $id) {
         code
@@ -191,8 +207,5 @@ export function useUnlikePost() {
         }
       }
     }
-  `,
-  {
-    ...defaultOptions
-  })
+  `)
 }

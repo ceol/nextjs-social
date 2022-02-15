@@ -90,11 +90,16 @@ export default {
   Mutation: {
     addPost: async (parent: any, args: any, context: any, info: any) => {
       const user: User = context?.user
+      const parentId = args?.parentId
       if (user) {
         const post = await prisma.post.create({
           data: {
             content: args.content,
             authorId: user.id,
+            parentId
+          },
+          include: {
+            author: true,
           }
         })
 

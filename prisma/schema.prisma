@@ -36,16 +36,18 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?        @unique
   emailVerified DateTime?
   image         String?
-  userName      String?   @unique
+  userName      String?        @unique
   accounts      Account[]
-  reposts       Post[]    @relation("RepostedPosts")
-  likes         Post[]    @relation("LikedPosts")
+  reposts       Post[]         @relation("RepostedPosts")
+  likes         Post[]         @relation("LikedPosts")
   posts         Post[]
+  messageGroups MessageGroup[] @relation("MessageGroups")
+  messages      Message[]      @relation("Messages")
   sessions      Session[]
 }
 
@@ -75,4 +77,22 @@ model Post {
   parent     Post?   @relation("PostReplies", fields: [parentId], references: [id])
   replies    Post[]  @relation("PostReplies")
   replyCount Int     @default(0)
+}
+
+model MessageGroup {
+  id       String    @id @default(cuid())
+  authors  User[]    @relation("MessageGroups")
+  messages Message[] @relation("GroupMessages")
+}
+
+model Message {
+  id       String   @id @default(cuid())
+  content  String
+  dateSent DateTime @default(now())
+
+  groupId String
+  group   MessageGroup @relation("GroupMessages", fields: [groupId], references: [id], onDelete: Cascade)
+
+  authorId String
+  author   User   @relation("Messages", fields: [authorId], references: [id], onDelete: Cascade)
 }
