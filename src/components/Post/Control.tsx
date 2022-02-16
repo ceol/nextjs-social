@@ -1,5 +1,5 @@
 import React from "react"
-import { IconComponent } from "../types"
+import { IconComponent } from "../../types"
 
 type Props = {
   label: string
@@ -9,7 +9,7 @@ type Props = {
   className?: string
 }
 
-export function PostControl({ label, icon: Icon, handleClick, text, className = "" }: Props) {
+export function Control({ label, icon: Icon, handleClick, text, className = "" }: Props) {
   return (
     <div className={`flex-1 flex space-x-2 items-center ${className}`}>
       <div className={`rounded-full cursor-pointer`} onClick={handleClick}>

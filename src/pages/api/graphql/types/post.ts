@@ -19,6 +19,9 @@ type Post {
 
   isLiked: Boolean
   isReposted: Boolean
+
+  parentId: ID
+  parent: Post
 }
 
 type PostMutationResponse implements MutationResponse {

@@ -1,6 +1,5 @@
 import { useHomePosts } from "../hooks"
-import { PostForm } from "./PostForm"
-import { PostList } from "./PostList"
+import { List } from "./Post/List"
 
 export function HomeList() {
   const { data, loading, error } = useHomePosts()
@@ -10,9 +9,8 @@ export function HomeList() {
   if (! data) return <div>Something went wrong :(</div>
 
     return (
-      <div>
-        <PostForm />
-        <PostList posts={data.homePosts} />
+      <div className="border-t">
+        <List posts={data.homePosts} />
       </div>
     )
 }

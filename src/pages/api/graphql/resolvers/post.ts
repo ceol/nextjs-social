@@ -56,7 +56,20 @@ export default {
           },
           replies: {
             include: {
-              author: true
+              author: true,
+              likedBy: {
+                where: {
+                  id: user?.id,
+                }
+              },
+              repostedBy: {
+                where: {
+                  id: user?.id,
+                },
+              }
+            },
+            orderBy: {
+              datePosted: "desc",
             }
           },
         }
@@ -100,8 +113,22 @@ export default {
           },
           include: {
             author: true,
+            parent: true,
           }
         })
+
+        if (parentId) {
+          await prisma.post.update({
+            data: {
+              replyCount: {
+                increment: 1
+              }
+            },
+            where: {
+              id: parentId
+            }
+          })
+        }
 
         return {
           code: "",

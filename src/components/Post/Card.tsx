@@ -2,8 +2,9 @@ import * as React from "react"
 import Link from "next/link"
 import { ChatAlt2Icon, DotsHorizontalIcon, HeartIcon, RefreshIcon, ShareIcon, UserCircleIcon } from "@heroicons/react/outline"
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid"
-import { PostData } from "../types"
-import { PostControl } from "./PostControl"
+import { PostData } from "../../types"
+import { Control } from "./Control"
+import { useLikePost, useRepostPost, useUnlikePost, useUnrepostPost } from "../../hooks"
 
 const MINUTE = 60,
       HOUR = MINUTE * 60,
@@ -26,18 +27,19 @@ function getReadableDate(dateInSeconds: number) {
   }
 }
 
-type ControlHandler = (event: React.SyntheticEvent, post: PostData) => void
-
 type Props = {
   post: PostData
-  handleReplyClick: ControlHandler
-  handleRepostClick: ControlHandler
-  handleLikeClick: ControlHandler
 }
 
-export function PostCard({ post, handleReplyClick, handleRepostClick, handleLikeClick }: Props) {
+export function Card({ post }: Props) {
   const authorUrl = `/${post.author.userName}`,
         postUrl = `${authorUrl}/${post.id}`
+
+  const [likeMutation] = useLikePost()
+  const [unlikeMutation] = useUnlikePost()
+  const [repostMutation] = useRepostPost()
+  const [unrepostMutation] = useUnrepostPost()
+  const mutationOptions = { variables: { id: post.id }}
 
   return (
     <div className="flex gap-2 border-b hover:bg-gray-50 p-2.5 text-sm">
@@ -68,34 +70,46 @@ export function PostCard({ post, handleReplyClick, handleRepostClick, handleLike
             <DotsHorizontalIcon className="w-5" />
           </div>
         </div>
-        <div>
+        <div className="whitespace-pre-line">
           {post.content}
         </div>
         <div className="flex-none flex space-x-4 pt-2 pb-1 select-none text-xs text-gray-500">
-          <PostControl
+          <Control
             label="Reply"
             icon={ChatAlt2Icon}
-            handleClick={(e) => handleReplyClick(e, post)}
+            handleClick={(event) => {
+              event.preventDefault()
+            }}
             text={post.replyCount > 0 ? post.replyCount : undefined}
           />
-          <PostControl
+          <Control
             label="Repost"
             icon={RefreshIcon}
-            handleClick={(e) => handleRepostClick(e, post)}
+            handleClick={(event) => {
+              event.preventDefault()
+              const mutation = post.isReposted ? unrepostMutation : repostMutation
+              mutation(mutationOptions)
+            }}
             text={post.repostCount > 0 ? post.repostCount : undefined}
             className={post.isReposted ? "text-green-600" : undefined}
           />
-          <PostControl
+          <Control
             label="Like"
             icon={post.isLiked ? HeartIconSolid : HeartIcon}
-            handleClick={(e) => handleLikeClick(e, post)}
+            handleClick={(event) => {
+              event.preventDefault()
+              const mutation = post.isLiked ? unlikeMutation : likeMutation
+              mutation(mutationOptions)
+            }}
             text={post.likeCount > 0 ? post.likeCount : undefined}
             className={post.isLiked ? "text-pink-600" : undefined}
           />
-          <PostControl
+          <Control
             label="Share"
             icon={ShareIcon}
-            handleClick={() => {}}
+            handleClick={(event) => {
+              event.preventDefault()
+            }}
           />
         </div>
       </div>

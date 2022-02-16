@@ -119,6 +119,10 @@ export function useAddPost() {
             name
             userName
           }
+
+          parent {
+            id
+          }
         }
       }
     }
@@ -137,6 +141,22 @@ export function useAddPost() {
             }
           }
         })
+        if (post.parent) {
+          cache.modify({
+            id: cache.identify(post.parent),
+            fields: {
+              replies(existingReplies: PostData[] = []) {
+                return [
+                  post,
+                  existingReplies
+                ]
+              },
+              replyCount(existingCount: number) {
+                return existingCount + 1
+              }
+            }
+          })
+        }
       }
     }
   })

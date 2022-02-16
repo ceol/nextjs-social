@@ -1,5 +1,5 @@
 import { PostData } from "../types"
-import { PostList } from "./PostList"
+import { List } from "./Post/List"
 
 type Props = {
   replies: PostData[]
@@ -7,6 +7,8 @@ type Props = {
 
 export function ReplyList({ replies }: Props) {
   return (
-    <PostList posts={replies} />
+    <div className="border-t">
+      <List posts={replies} />
+    </div>
   )
 }

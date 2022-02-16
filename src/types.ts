@@ -19,7 +19,7 @@ export type PostData = {
   likedBy: UserData[]
   likeCount: number
 
-  parentId: string
+  parentId?: string
   parent?: PostData
 
   isLiked: boolean

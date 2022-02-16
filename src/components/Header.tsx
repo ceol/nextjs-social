@@ -28,11 +28,10 @@ function HeaderLink({ href, children }: { href: string, children: ReactNode}) {
 
 export function Header() {
   return (
-    <header className="flex-grow flex-shrink-0 flex flex-col items-end border-r">
-      <div className="flex flex-col w-60 mt-2 mb-5">
+    <header className="flex flex-col items-end">
+      <div className="flex flex-col w-60 my-1">
         <HeaderLink href="/">
           <AtSymbolIcon className="w-8" />
-          Social
         </HeaderLink>
       </div>
       <div className="flex flex-col w-60">
