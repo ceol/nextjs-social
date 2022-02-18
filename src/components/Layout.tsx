@@ -11,11 +11,11 @@ export function Layout({ children }: Props) {
       <div className="flex-grow flex-shrink-0">
         <Header />
       </div>
-      <main className="flex-grow flex-shrink flex border-l">
-        <div className="" style={{width: "600px"}}>
+      <main className="flex-grow flex-shrink flex">
+        <div className="border-l border-r min-h-screen" style={{width: "600px"}}>
           {children}
         </div>
-        <div className="w-80 border-l">
+        <div className="w-80">
 
         </div>
       </main>

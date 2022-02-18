@@ -42,7 +42,7 @@ export function Card({ post }: Props) {
   const mutationOptions = { variables: { id: post.id }}
 
   return (
-    <div className="flex gap-2 border-b hover:bg-gray-50 p-2.5 text-sm">
+    <div className="flex gap-2 hover:bg-gray-50 p-2.5 pb-1 text-sm">
       <UserCircleIcon className="self-start flex-none w-12 text-gray-400" />
       <div className="flex-grow flex flex-col gap-1">
         <div className="flex">
@@ -66,18 +66,23 @@ export function Card({ post }: Props) {
               </a>
             </Link>
           </div>
-          <div className="flex-none text-gray-600">
+          <div
+            className="flex-none text-gray-600 cursor-pointer"
+            onClick={event => {
+              event.preventDefault()
+            }}
+          >
             <DotsHorizontalIcon className="w-5" />
           </div>
         </div>
         <div className="whitespace-pre-line">
           {post.content}
         </div>
-        <div className="flex-none flex space-x-4 pt-2 pb-1 select-none text-xs text-gray-500">
+        <div className="flex-none flex pb-1 select-none text-xs text-gray-500">
           <Control
             label="Reply"
             icon={ChatAlt2Icon}
-            handleClick={(event) => {
+            onClick={event => {
               event.preventDefault()
             }}
             text={post.replyCount > 0 ? post.replyCount : undefined}
@@ -85,7 +90,7 @@ export function Card({ post }: Props) {
           <Control
             label="Repost"
             icon={RefreshIcon}
-            handleClick={(event) => {
+            onClick={event => {
               event.preventDefault()
               const mutation = post.isReposted ? unrepostMutation : repostMutation
               mutation(mutationOptions)
@@ -96,7 +101,7 @@ export function Card({ post }: Props) {
           <Control
             label="Like"
             icon={post.isLiked ? HeartIconSolid : HeartIcon}
-            handleClick={(event) => {
+            onClick={event => {
               event.preventDefault()
               const mutation = post.isLiked ? unlikeMutation : likeMutation
               mutation(mutationOptions)
@@ -107,7 +112,7 @@ export function Card({ post }: Props) {
           <Control
             label="Share"
             icon={ShareIcon}
-            handleClick={(event) => {
+            onClick={event => {
               event.preventDefault()
             }}
           />

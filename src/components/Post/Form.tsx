@@ -33,16 +33,20 @@ export function Form({ parentId, placeholder = "Make a new post" }: Props) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-2"
+      className="flex flex-col gap-2 py-3 border-b"
     >
       <div className="flex gap-2 px-3">
-        <UserCircleIcon className="flex-none w-12 text-gray-400" />
-        <textarea
-          value={contentState}
-          placeholder={placeholder}
-          onChange={handleTextareaChange}
-          className="flex-grow focus:outline-none"
-        />
+        <div className="flex-none flex justify-start">
+          <UserCircleIcon className="h-12 text-gray-400" />
+        </div>
+        <div className="flex-grow flex">
+          <textarea
+            value={contentState}
+            placeholder={placeholder}
+            onChange={handleTextareaChange}
+            className="flex-grow py-2 focus:outline-none"
+          />
+        </div>
       </div>
       <button
         type="submit"

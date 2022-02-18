@@ -1,9 +1,10 @@
 import Head from "next/head"
 import { useRouter } from "next/router"
 import React from "react"
+import { LoadingIcon } from "../../../components/LoadingIcon"
 import { Card } from "../../../components/Post/Card"
 import { Form } from "../../../components/Post/Form"
-import { ReplyList } from "../../../components/ReplyList"
+import { List } from "../../../components/Post/List"
 import { usePost } from "../../../hooks"
 
 export default function PostDetailPage() {
@@ -13,23 +14,23 @@ export default function PostDetailPage() {
   const { data, loading, error } = usePost(postId)
 
   let content: React.ReactNode
-  if (loading) content = "Loading..."
+  if (loading) content = <LoadingIcon />
   else if (error) content = "Error!"
   else if (data) {
     content = (
       <>
-        <Card
-          post={data.post}
-        />
-        <div className="mb-4">
-          <Form
-            parentId={data.post.id}
-            placeholder={`Reply to ${data.post.author.userName}`}
+        <div className="border-b">
+          <Card
+            post={data.post}
           />
         </div>
-        <ReplyList
-          replies={data.post.replies}
+        <Form
+          parentId={data.post.id}
+          placeholder={`Reply to ${data.post.author.userName}`}
         />
+        {data.post.replies.length > 0 &&
+          <List posts={data.post.replies} />
+        }
       </>
     )
   }
