@@ -95,7 +95,7 @@ export default {
         orderBy: {
           datePosted: "desc",
         },
-        take: 100,
+        take: 50,
       })
     },
   },

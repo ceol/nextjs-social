@@ -36,19 +36,27 @@ model Session {
 }
 
 model User {
-  id            String         @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?        @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
-  userName      String?        @unique
+  userName      String?   @unique
   accounts      Account[]
-  reposts       Post[]         @relation("RepostedPosts")
-  likes         Post[]         @relation("LikedPosts")
-  posts         Post[]
+  sessions      Session[]
+
+  posts Post[]
+
+  reposts Post[] @relation("RepostedPosts")
+  likes   Post[] @relation("LikedPosts")
+
   messageGroups MessageGroup[] @relation("MessageGroups")
   messages      Message[]      @relation("Messages")
-  sessions      Session[]
+
+  following  User[] @relation("Follows", references: [id])
+  followingCount Int @default(0)
+  followedBy User[] @relation("Follows", references: [id])
+  followedByCount Int @default(0)
 }
 
 model VerificationToken {

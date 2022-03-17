@@ -1,5 +1,5 @@
 import { useQuery, gql, useMutation } from "@apollo/client"
-import { PostData } from "./types"
+import { PostData, UserData } from "./types"
 
 type IDType = number | string | string[] | undefined
 
@@ -20,6 +20,10 @@ type PostMutationResponse = {
 
 type AddPostMutationResponse = {
   addPost: PostMutationResponse
+}
+
+type UserReturnData = {
+  user: UserData
 }
 
 export function useHomePosts() {
@@ -228,4 +232,41 @@ export function useUnlikePost() {
       }
     }
   `)
+}
+
+export function useAuthor(userName: string | string[] | undefined) {
+  return useQuery<UserReturnData>(gql`
+    query GetAuthor($userName: String!) {
+      user(userName: $userName) {
+        id
+        name
+        userName
+
+        posts {
+          id
+          content
+          datePosted
+
+          replyCount
+          repostCount
+          likeCount
+
+          isLiked
+          isReposted
+
+          author {
+            id
+            name
+            userName
+          }
+        }
+      }
+    }
+  `,
+  {
+    variables: {
+      userName: userName,
+    },
+    skip: !userName
+  })
 }

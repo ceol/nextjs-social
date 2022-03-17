@@ -5,6 +5,7 @@ import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid"
 import { PostData } from "../../types"
 import { Control } from "./Control"
 import { useLikePost, useRepostPost, useUnlikePost, useUnrepostPost } from "../../hooks"
+import { ProfileImage } from "../Author/ProfileImage"
 
 const MINUTE = 60,
       HOUR = MINUTE * 60,
@@ -43,7 +44,7 @@ export function Card({ post }: Props) {
 
   return (
     <div className="flex gap-2 hover:bg-gray-50 p-2.5 pb-1 text-sm">
-      <UserCircleIcon className="self-start flex-none w-12 text-gray-400" />
+      <ProfileImage author={post.author} />
       <div className="flex-grow flex flex-col gap-1">
         <div className="flex">
           <div className="flex-grow flex gap-1">

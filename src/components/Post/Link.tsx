@@ -8,7 +8,7 @@ type Props = {
 }
 
 export function Link({ post, children }: Props) {
-  const href = `/${post.author.userName}/${post.id}`
+  const href = `/${post?.author?.userName}/${post.id}`
   return (
     <NextLink href={href}>
       <div className="cursor-pointer">

@@ -2,6 +2,10 @@ export type UserData = {
   id: string
   name: string
   userName: string
+
+  posts: PostData[]
+  reposts: PostData[]
+  likes: PostData[]
 }
 
 export type PostData = {
