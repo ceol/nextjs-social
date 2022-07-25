@@ -53,9 +53,10 @@ model User {
   messageGroups MessageGroup[] @relation("MessageGroups")
   messages      Message[]      @relation("Messages")
 
-  following  User[] @relation("Follows", references: [id])
+  following  User[] @relation("Follows")
   followingCount Int @default(0)
-  followedBy User[] @relation("Follows", references: [id])
+
+  followedBy User[] @relation("Follows")
   followedByCount Int @default(0)
 }
 

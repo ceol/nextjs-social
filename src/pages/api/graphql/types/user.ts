@@ -17,10 +17,25 @@ type User {
 
   followedBy: [User]
   followedByCount: Int
+
+  isFollowedBy: Boolean
+  isFollowing: Boolean
 }
 
 type Query {
   users: [User]
   user(userName: String!): User
+}
+
+type UserMutationResponse implements MutationResponse {
+  code: String!
+  success: Boolean!
+  message: String!
+  user: User
+}
+
+type Mutation {
+  follow(id: ID!): UserMutationResponse
+  unfollow(id: ID!): UserMutationResponse
 }
 `

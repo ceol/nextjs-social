@@ -3,6 +3,8 @@ import type { AppProps } from "next/app"
 import { Layout } from "../components/Layout"
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"
 import { SessionProvider } from "next-auth/react"
+import { ChakraProvider } from "@chakra-ui/react"
+import theme from "../theme"
 
 const client = new ApolloClient({
   uri: 'http://localhost:3000/api/graphql',
@@ -16,9 +18,11 @@ function App({
   return (
     <SessionProvider session={session} refetchInterval={5 * 60}>
       <ApolloProvider client={client}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <ChakraProvider theme={theme}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ChakraProvider>
       </ApolloProvider>
     </SessionProvider>
   )

@@ -43,7 +43,7 @@ export function Card({ post }: Props) {
   const mutationOptions = { variables: { id: post.id }}
 
   return (
-    <div className="flex gap-2 hover:bg-gray-50 p-2.5 pb-1 text-sm">
+    <div className="flex gap-2 p-2.5 pb-1 text-sm">
       <ProfileImage author={post.author} />
       <div className="flex-grow flex flex-col gap-1">
         <div className="flex">
@@ -53,22 +53,22 @@ export function Card({ post }: Props) {
                 <span className="hover:underline">
                   {post.author.name}
                 </span>
-                <span className="text-gray-500 hover:underline">
+                <span className="hover:underline">
                   @{post.author.userName}
                 </span>
               </a>
             </Link>
-            <span className="text-gray-500">
+            <span className="">
             ·
             </span>
             <Link href={postUrl}>
-              <a className="text-gray-500 hover:underline">
+              <a className="hover:underline">
                 {getReadableDate(post.datePosted)}
               </a>
             </Link>
           </div>
           <div
-            className="flex-none text-gray-600 cursor-pointer"
+            className="flex-none cursor-pointer"
             onClick={event => {
               event.preventDefault()
             }}
@@ -79,7 +79,7 @@ export function Card({ post }: Props) {
         <div className="whitespace-pre-line">
           {post.content}
         </div>
-        <div className="flex-none flex pb-1 select-none text-xs text-gray-500">
+        <div className="flex-none flex pb-1 select-none text-xs">
           <Control
             label="Reply"
             icon={ChatAlt2Icon}

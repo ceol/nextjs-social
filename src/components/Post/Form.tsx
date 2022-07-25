@@ -37,20 +37,20 @@ export function Form({ parentId, placeholder = "Make a new post" }: Props) {
     >
       <div className="flex gap-2 px-3">
         <div className="flex-none flex justify-start">
-          <UserCircleIcon className="h-12 text-gray-400" />
+          <UserCircleIcon className="h-12" />
         </div>
         <div className="flex-grow flex">
           <textarea
             value={contentState}
             placeholder={placeholder}
             onChange={handleTextareaChange}
-            className="flex-grow py-2 focus:outline-none"
+            className="flex-grow py-2 focus:outline-none bg-transparent"
           />
         </div>
       </div>
       <button
         type="submit"
-        className="grow-0 w-24 mr-4 p-1 rounded-2xl bg-gray-700 text-white font-bold self-end disabled:cursor-not-allowed disabled:opacity-20"
+        className="grow-0 w-24 mr-4 p-1 rounded-2xl font-bold self-end disabled:cursor-not-allowed disabled:opacity-20"
         disabled={!Boolean(contentState.trim())}
       >
           Post

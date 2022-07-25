@@ -19,7 +19,7 @@ const controls: HeaderControl[] = [
 function HeaderLink({ href, children }: { href: string, children: ReactNode}) {
   return (
     <Link href={href}>
-      <a className="flex items-center gap-4 max-w-max px-4 pr-6 py-3 rounded-full text-xl text-gray-700 cursor-pointer hover:bg-gray-100">
+      <a className="flex items-center gap-4 max-w-max px-4 pr-6 py-3 rounded-full text-xl cursor-pointer">
         {children}
       </a>
     </Link>

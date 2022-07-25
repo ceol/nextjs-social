@@ -11,7 +11,7 @@ type Props = {
 export function ProfileImage({ author, className = "", iconClassName = "" }: Props) {
   return (
     <div className={`${className}`}>
-      <UserCircleIcon className={`self-start flex-none w-12 text-gray-400 ${iconClassName}`}  />
+      <UserCircleIcon className={`self-start flex-none w-12 ${iconClassName}`}  />
     </div>
   )
 }

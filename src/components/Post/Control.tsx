@@ -16,7 +16,7 @@ export function Control({ label, icon: Icon, onClick, text, className = "" }: Pr
         className={`flex-shrink flex gap-1.5 pr-2 items-center cursor-pointer group ${className}`}
         onClick={onClick}
         >
-        <Icon className="w-8 p-1.5 rounded-full group-hover:bg-gray-200" />
+        <Icon className="w-8 p-1.5 rounded-full" />
         {text}
       </div>
     </div>
