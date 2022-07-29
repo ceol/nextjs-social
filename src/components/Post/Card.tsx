@@ -1,11 +1,13 @@
 import * as React from "react"
-import Link from "next/link"
-import { ChatAlt2Icon, DotsHorizontalIcon, HeartIcon, RefreshIcon, ShareIcon, UserCircleIcon } from "@heroicons/react/outline"
+import { ChatAlt2Icon, DotsHorizontalIcon, HeartIcon, RefreshIcon, ShareIcon } from "@heroicons/react/outline"
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid"
 import { PostData } from "../../types"
 import { Control } from "./Control"
 import { useLikePost, useRepostPost, useUnlikePost, useUnrepostPost } from "../../hooks"
 import { ProfileImage } from "../Author/ProfileImage"
+import { Box, HStack, VStack } from "@chakra-ui/react"
+import { Link } from "../Link"
+import { ControlBar } from "./ControlBar"
 
 const MINUTE = 60,
       HOUR = MINUTE * 60,
@@ -43,82 +45,65 @@ export function Card({ post }: Props) {
   const mutationOptions = { variables: { id: post.id }}
 
   return (
-    <div className="flex gap-2 p-2.5 pb-1 text-sm">
-      <ProfileImage author={post.author} />
-      <div className="flex-grow flex flex-col gap-1">
-        <div className="flex">
-          <div className="flex-grow flex gap-1">
+    <VStack align="stretch">
+      <HStack>
+        <ProfileImage author={post.author} />
+        <VStack>
+          <HStack>
             <Link href={authorUrl}>
-              <a className="flex gap-1">
-                <span className="hover:underline">
-                  {post.author.name}
-                </span>
-                <span className="hover:underline">
-                  @{post.author.userName}
-                </span>
-              </a>
+              {post.author.name}
             </Link>
-            <span className="">
-            ·
-            </span>
+            <Link href={authorUrl}>
+              @{post.author.userName}
+            </Link>
             <Link href={postUrl}>
-              <a className="hover:underline">
-                {getReadableDate(post.datePosted)}
-              </a>
+              {getReadableDate(post.datePosted)}
             </Link>
-          </div>
-          <div
-            className="flex-none cursor-pointer"
-            onClick={event => {
-              event.preventDefault()
-            }}
-          >
             <DotsHorizontalIcon className="w-5" />
-          </div>
-        </div>
-        <div className="whitespace-pre-line">
-          {post.content}
-        </div>
-        <div className="flex-none flex pb-1 select-none text-xs">
-          <Control
-            label="Reply"
-            icon={ChatAlt2Icon}
-            onClick={event => {
-              event.preventDefault()
-            }}
-            text={post.replyCount > 0 ? post.replyCount : undefined}
-          />
-          <Control
-            label="Repost"
-            icon={RefreshIcon}
-            onClick={event => {
-              event.preventDefault()
-              const mutation = post.isReposted ? unrepostMutation : repostMutation
-              mutation(mutationOptions)
-            }}
-            text={post.repostCount > 0 ? post.repostCount : undefined}
-            className={post.isReposted ? "text-green-600" : undefined}
-          />
-          <Control
-            label="Like"
-            icon={post.isLiked ? HeartIconSolid : HeartIcon}
-            onClick={event => {
-              event.preventDefault()
-              const mutation = post.isLiked ? unlikeMutation : likeMutation
-              mutation(mutationOptions)
-            }}
-            text={post.likeCount > 0 ? post.likeCount : undefined}
-            className={post.isLiked ? "text-pink-600" : undefined}
-          />
-          <Control
-            label="Share"
-            icon={ShareIcon}
-            onClick={event => {
-              event.preventDefault()
-            }}
-          />
-        </div>
-      </div>
-    </div>
+          </HStack>
+          <Box whiteSpace="pre-line">
+            {post.content}
+          </Box>
+        </VStack>
+      </HStack>
+      <ControlBar>
+        <Control
+          icon={ChatAlt2Icon}
+          onClick={event => {
+            event.preventDefault()
+          }}
+        >
+          {post.replyCount > 0 ? post.replyCount : undefined}
+        </Control>
+        <Control
+          icon={RefreshIcon}
+          onClick={event => {
+            event.preventDefault()
+            const mutation = post.isReposted ? unrepostMutation : repostMutation
+            mutation(mutationOptions)
+          }}
+          color={post.isReposted ? "reposted" : undefined}
+        >
+          {post.repostCount > 0 ? post.repostCount : undefined}
+        </Control>
+        <Control
+          icon={post.isLiked ? HeartIconSolid : HeartIcon}
+          onClick={event => {
+            event.preventDefault()
+            const mutation = post.isLiked ? unlikeMutation : likeMutation
+            mutation(mutationOptions)
+          }}
+          color={post.isLiked ? "liked" : undefined}
+        >
+          {post.likeCount > 0 ? post.likeCount : undefined}
+        </Control>
+        <Control
+          icon={ShareIcon}
+          onClick={event => {
+            event.preventDefault()
+          }}
+        />
+      </ControlBar>
+    </VStack>
   )
 }

@@ -2,11 +2,11 @@
 const semanticTokens = {
   colors: {
     // Posts
-    postLiked: {
+    liked: {
       default: "red.500",
       _dark: "red.300",
     },
-    postReposted: {
+    reposted: {
       default: "green.500",
       _dark: "green.300",
     },

@@ -1,29 +1,27 @@
+import { Box, BoxProps, Button, HStack } from "@chakra-ui/react"
 import React from "react"
 import { UserData } from "../../types"
 import { ProfileImage } from "./ProfileImage"
 
 type Props = {
   author: UserData
-  className?: string
-}
+} & BoxProps
 
-export function Card({ author, className = "" }: Props) {
+export function Card({ author, ...props }: Props) {
   return (
-    <div className={`flex flex-col ${className}`}>
-      <div className="flex w-full">
-        <ProfileImage author={author} className="flex-none" iconClassName="w-36" />
-        <div className="flex-grow flex justify-end">
-          <button>Follow</button>
-        </div>
-      </div>
-      <div className="flex flex-col">
-        <div>
+    <Box {...props}>
+      <HStack w="full" justifyContent="space-between">
+        <ProfileImage author={author} w={24} h={24} />
+        <Button>Follow</Button>
+      </HStack>
+      <HStack>
+        <Box>
           {author.name}
-        </div>
-        <div>
+        </Box>
+        <Box>
           @{author.userName}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </HStack>
+    </Box>
   )
 }

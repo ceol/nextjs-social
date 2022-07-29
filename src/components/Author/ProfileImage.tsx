@@ -1,17 +1,14 @@
+import { Icon, IconProps } from "@chakra-ui/react"
 import { UserCircleIcon } from "@heroicons/react/outline"
 import React from "react"
 import { UserData } from "../../types"
 
 type Props = {
   author: UserData
-  className?: string
-  iconClassName?: string
-}
+} & IconProps
 
-export function ProfileImage({ author, className = "", iconClassName = "" }: Props) {
+export function ProfileImage({ author, ...props }: Props) {
   return (
-    <div className={`${className}`}>
-      <UserCircleIcon className={`self-start flex-none w-12 ${iconClassName}`}  />
-    </div>
+    <Icon as={UserCircleIcon} {...props} />
   )
 }
