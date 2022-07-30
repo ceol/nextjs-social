@@ -7,7 +7,7 @@ type Props = {
 
 export function ControlBar({ children }: Props) {
   return (
-    <HStack justify="space-evenly">
+    <HStack justify="space-evenly" p={1}>
       {children}
     </HStack>
   )

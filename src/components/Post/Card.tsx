@@ -83,6 +83,7 @@ export function Card({ post }: Props) {
             mutation(mutationOptions)
           }}
           color={post.isReposted ? "reposted" : undefined}
+          hoverColor="reposted"
         >
           {post.repostCount > 0 ? post.repostCount : undefined}
         </Control>
@@ -94,6 +95,7 @@ export function Card({ post }: Props) {
             mutation(mutationOptions)
           }}
           color={post.isLiked ? "liked" : undefined}
+          hoverColor="liked"
         >
           {post.likeCount > 0 ? post.likeCount : undefined}
         </Control>
